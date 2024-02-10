@@ -26,10 +26,14 @@ function init(passport) {
     })
 
     passport.deserializeUser((id, done) => {
-        User.findOne({ _id: id }, (err, user) => {
-            done(err, user)
-        })
-    })
+        User.findById(id)
+            .then(user => {
+                done(null, user);
+            })
+            .catch(err => {
+                done(err, null);
+            });
+    });
 }
 
 module.exports = init
